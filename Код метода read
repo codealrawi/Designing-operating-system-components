@@ -1,0 +1,4 @@
+virtual Memory* read(int addr)
+{
+	return image[addr].getCode();
+}
