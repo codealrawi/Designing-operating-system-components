@@ -1,0 +1,18 @@
+code_1 = new Code(3);
+code_1->setCmd(Mov, r1, 15);
+code_1->setCmd(Wmem, r1, 70);
+code_1->setCmd(Int, 0, Exit);
+
+cin >> ch;
+if (ch == 'Y') {
+	cout << "1. Create process using Management Memory Unit" << endl;
+	handle_1 = kernel.CreateProcess("P1", code_1);
+	mmu.Debug(handle_1);
+	cout << "2. Execute process" << endl;
+	dispatcher.dispatch();
+	dispatcher.dispatch();
+	cout << "3. Terminate process" << endl;
+	kernel.TerminateProcess(handle_1);
+	memory.clearMemory();
+}
+
