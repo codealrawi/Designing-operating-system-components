@@ -1,0 +1,12 @@
+cout << "1. Create process, load in main memory, execute" << endl;
+handle_1 = kernel.CreateProcess("P1", code_1);
+dispatcher.dispatch();
+memory.debugHeap();
+dispatcher.dispatch();
+
+cout << "2. Terminate process" << endl;
+kernel.TerminateProcess(handle_1);
+
+cout << "3. Clear all memory" << endl;
+memory.clearMemory();
+memory.debugHeap();
