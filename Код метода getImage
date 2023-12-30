@@ -1,0 +1,4 @@
+ProcessImage * getImage()
+{
+	return &image[currImage];
+}
