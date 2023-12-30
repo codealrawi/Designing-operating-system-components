@@ -1,0 +1,61 @@
+case '2':
+cout << endl;
+cout << "clear memory & load P1: addr=10 & P2 addr=40" << endl;
+memory.clearMemory();
+//(12 * 2 - 4) / 2 + 3 = 13
+mmu.setAlloc(10);
+memory.setCmd(Mov, r1, 12);
+memory.setCmd(Mov, r2, 2);
+memory.setCmd(Mul, r1, r2); // 12 * 2 = 24
+memory.setCmd(Sub, r1, 4);  // 24 - 4 = 20
+memory.setCmd(Mov, r2, 2);
+memory.setCmd(Div, r1, r2); // 20 / 2 = 10
+memory.setCmd(Add, r1, 3);  // 10 + 3 = 13
+memory.setCmd(Wmem, r1, 69);
+memory.setCmd(Int, r1, Dev);
+memory.setCmd(Int, r1, Lan);
+memory.setCmd(Int, 0, Exit); 
+// 16 * 2 = 32
+mmu.setAlloc(40);
+memory.setCmd(Mov, r1, 16);
+memory.setCmd(Mov, r2, 2);
+memory.setCmd(Mul, r1, r2); // 16 * 2 = 32
+memory.setCmd(Wmem, r1, 70);
+memory.setCmd(Rmem, r3, 70);
+memory.setCmd(Int, r1, Dev);
+memory.setCmd(Int, r3, Lan);
+memory.setCmd(Int, 0, Exit);
+
+cout << "dump memory: Y/N-any" << endl;
+cin >> ch;
+
+if (ch == 'Y')
+	  memory.debugHeap();
+
+job[0].set(10, 0, true);
+job[1].set(40, 1, true);
+cout << "Multitasking execute p1, p2: Y/N-any" << endl;
+cin >> ch;
+
+if (ch == 'Y') {
+	  cout << "begin P1, p2 cpu.execute" << endl;
+	  scheduler.setSliceCPU(1);
+	  interrupt = scheduler.execute(job, NULL);
+	  cout << "end P1, P2 cpu.execute interrupt = " << interrupt << endl;
+}
+
+cout << "dump memory: Y/N-any" << endl;
+cin >> ch;
+
+if (ch == 'Y')
+	  memory.debugHeap();
+
+cout << "clear memory: Y/N-any" << endl;
+cin >> ch;
+
+if (ch == 'Y') {
+	  memory.clearMemory();
+	  memory.debugHeap();
+	  scheduler.getSysReg(1)->clearSysReg();
+}
+break;
