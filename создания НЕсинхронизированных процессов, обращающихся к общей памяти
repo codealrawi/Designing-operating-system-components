@@ -1,0 +1,29 @@
+cout << "create unsynchronized Process P1 and P2, execute, look Error:" << endl;
+code_1 = new Code(3);
+code_1->setCmd(Mov, r1, 15);
+code_1->setCmd(Wmem, r1, 70);
+code_1->setCmd(Int, 0, Exit);
+
+code_2 = new Code(5);
+code_2->setCmd(Rmem, r1, 70);
+code_2->setCmd(Mov, r2, 2);
+code_2->setCmd(Mul, r1, r2);
+code_2->setCmd(Int, r1, Dev);
+code_2->setCmd(Int, 0, Exit);
+
+handle_1 = kernel.CreateProcess("P1", code_1);
+handle_2 = kernel.CreateProcess("P2", code_2);
+
+dispatcher.dispatch();
+
+handle_1->ProcessTime();
+handle_2->ProcessTime();
+
+cout << "Dump memory Y/N-any" << endl;
+cin >> ch;
+if (ch == 'Y')
+memory.debugHeap();
+
+kernel.TerminateProcess(handle_1);
+kernel.TerminateProcess(handle_2);
+memory.clearMemory();
