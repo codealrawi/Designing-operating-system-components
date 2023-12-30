@@ -1,0 +1,34 @@
+cout << "create synchronized Process P1 and P2" << endl;
+cout << "using CriticalSection Y/N-any" << endl;
+cin >> ch;
+if (ch == 'Y') {
+	handle_1 = kernel.CreateProcess("P1", code_1);
+	handle_2 = kernel.CreateProcess("P2", code_2);
+
+	kernel.EnterCriticalSection(handle_1);
+	kernel.EnterCriticalSection(handle_2);
+	
+	cout << "----------P1 dispatch----------" << endl;
+	dispatcher.dispatch();
+	kernel.DebugProcessImage(handle_1);
+	kernel.DebugProcessImage(handle_2);
+
+	kernel.LeaveCriticalSection(handle_1);
+
+	cout << "----------P2 dispatch----------" << endl;
+	dispatcher.dispatch();
+	kernel.DebugProcessImage(handle_2);
+
+	memory.debugHeap();
+	kernel.LeaveCriticalSection(handle_2);
+	cout << "dispatch" << endl;
+	dispatcher.dispatch();
+
+	handle_1->ProcessTime();
+	handle_2->ProcessTime();
+
+	kernel.TerminateProcess(handle_1);
+	kernel.TerminateProcess(handle_2);
+	}
+	memory.clearMemory();
+	break;
