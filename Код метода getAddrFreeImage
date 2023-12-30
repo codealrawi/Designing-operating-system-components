@@ -1,0 +1,10 @@
+virtual int getAddrFreeImage()
+{
+	for (int i = 0; i < SIZE_OF_VIRTUAL_MEMORY_IN_IMAGES; i++)
+		if (image[i].getStatus())
+		{
+			image[i].setStatus(false);
+			return i;
+		}
+		return -1;
+}
