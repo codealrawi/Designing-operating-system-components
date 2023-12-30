@@ -1,0 +1,4 @@
+virtual void setAddrImage(int addr)
+{
+	currImage = addr;
+}
